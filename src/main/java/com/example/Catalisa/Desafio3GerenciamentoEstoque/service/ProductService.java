@@ -1,13 +1,12 @@
 package com.example.Catalisa.Desafio3GerenciamentoEstoque.service;
 
-import com.example.Catalisa.Desafio3GerenciamentoEstoque.dto.ProductDTO;
 import com.example.Catalisa.Desafio3GerenciamentoEstoque.model.ProductModel;
 import com.example.Catalisa.Desafio3GerenciamentoEstoque.model.factory.ProductFactory;
 import com.example.Catalisa.Desafio3GerenciamentoEstoque.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 
