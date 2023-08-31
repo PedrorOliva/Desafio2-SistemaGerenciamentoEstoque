@@ -32,15 +32,6 @@ public class ProductController {
     return new ResponseEntity<>(productMapper.toProductDTO(newProduct), HttpStatus.CREATED);
   }
 
-//  @GetMapping
-//  public List<ProductDTO> listAllProducts() {
-//    List<ProductModel> products = productService.findAllProducts();
-//    List<ProductDTO> productDTO = new ArrayList<>();
-//
-//    productDTO.add(productMapper.toProductDTO(products));
-//    return productDTO;
-//  }
-
   @GetMapping
   public List<ProductDTO> listAllProducts() {
     List<ProductModel> products = productService.findAllProducts();
