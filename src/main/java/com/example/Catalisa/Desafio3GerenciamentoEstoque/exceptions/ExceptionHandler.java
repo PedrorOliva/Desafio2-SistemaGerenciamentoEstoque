@@ -14,6 +14,4 @@ public class ExceptionHandler {
     String errorMessage = Objects.requireNonNull(e.getFieldError()).getDefaultMessage();
     return ResponseEntity.badRequest().body(errorMessage);
   }
-
-
 }
