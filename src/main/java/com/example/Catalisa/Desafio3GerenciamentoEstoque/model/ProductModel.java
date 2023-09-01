@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import java.util.Optional;
 
 @Entity
 @Table(name = "tb_product")
@@ -42,7 +43,11 @@ public class ProductModel {
 
   private Integer operationAmount = 0;
 
-  public ProductModel(long id, String name, String descrption, Double price, Integer amount, String category) {
+  public ProductModel(long id, String name, String description, double price, String operation, int operationAmount,
+                      String category) {
   }
 
+
+  public ProductModel(String name, String description, Double price, String operation, Integer operationAmount, String category) {
+  }
 }

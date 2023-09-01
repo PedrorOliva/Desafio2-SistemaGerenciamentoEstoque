@@ -4,6 +4,7 @@ import com.example.Catalisa.Desafio3GerenciamentoEstoque.dto.ProductDTO;
 import com.example.Catalisa.Desafio3GerenciamentoEstoque.model.ProductModel;
 import org.springframework.stereotype.Component;
 
+
 @Component
 public class ProductMapper {
   public ProductDTO toProductDTO(ProductModel productModel){
