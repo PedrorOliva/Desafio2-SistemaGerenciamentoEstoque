@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.*;
-
-import static org.springframework.http.ResponseEntity.status;
+;
 
 @RestController
 @RequestMapping("api/product")
@@ -26,88 +25,48 @@ public class ProductController {
   ProductMapper productMapper;
 
   @PostMapping
-  public ResponseEntity<ProductDTO> registerProduct(@Valid @RequestBody ProductModel productModel,
-                                                    ProductFactory productFactory) {
-    ProductModel newProduct = productService.create(productModel, productFactory);
-    return new ResponseEntity<>(productMapper.toProductDTO(newProduct), HttpStatus.CREATED);
+  public ResponseEntity<?> register(@Valid @RequestBody ProductModel productModel,
+                                             ProductFactory productFactory){
+    ProductDTO product = productService.create(productModel, productFactory);
+    return new ResponseEntity<>(product, HttpStatus.CREATED);
   }
 
   @GetMapping
-  public List<ProductDTO> listAllProducts() {
-    List<ProductModel> products = productService.findAllProducts();
-    List<ProductDTO> productDTO = new ArrayList<>();
-
-    for(ProductModel productModel: products){
-      productDTO.add(productMapper.toProductDTO(productModel));
-    }
-    return productDTO;
+  public ResponseEntity<List<ProductDTO>> listAllProducts() {
+    return ResponseEntity.ok(productService.listAllProducts());
   }
 
   @GetMapping(path = "/{id}")
-  public ResponseEntity<?> findProductById(@PathVariable Long id) {
-    Optional<ProductModel> productOptional = productService.findOneById(id);
-    if (productOptional.isEmpty()) {
-      return status(HttpStatus.NOT_FOUND).body("Produto não encontrado!");
-    }
-    ProductModel product = productOptional.get();
-    return ResponseEntity.ok(productMapper.toProductDTO(product));
+  public ResponseEntity<Optional<ProductDTO>> findById(@PathVariable Long id) {
+    return ResponseEntity.ok(productService.findById(id));
   }
 
   @GetMapping(path = "/productName")
-  public ResponseEntity<?> findProductByName(@RequestParam String name) {
-    Optional<ProductModel> productOptional = productService.findOneByName(name);
-    if (productOptional.isEmpty()) {
-      return status(HttpStatus.NOT_FOUND).body("Produto não encontrado!");
-    }
-    ProductModel product = productOptional.get();
-    return ResponseEntity.ok(productMapper.toProductDTO(product));
+  public ResponseEntity<List<ProductDTO>> findByName(@RequestParam String name) {
+    return ResponseEntity.ok(productService.findByName(name));
   }
 
   @GetMapping(path = "/category")
-  public ResponseEntity<?> findProductByCategory(@RequestParam String category) {
-    List<ProductModel> products = productService.findProductByCategory(category);
-    List<ProductDTO> productDTO = new ArrayList<>();
-
-    if (products.isEmpty()) {
-      return status(HttpStatus.NOT_FOUND).body("Categoria não encontrada!");
-    }
-    for(ProductModel productModel: products){
-      productDTO.add(productMapper.toProductDTO(productModel));
-    }
-    return ResponseEntity.ok(productDTO);
+  public ResponseEntity<List<ProductDTO>> findByCategory(@RequestParam String category) {
+    return ResponseEntity.ok(productService.findByCategory(category));
   }
 
   @PutMapping(path = "/{id}")
-  public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody ProductModel productModel) {
-    Optional<ProductModel> productOptional = productService.findOneById(id);
-    if (productOptional.isEmpty()) {
-      return status(HttpStatus.NOT_FOUND).body("Produto não encontrado!");
-    }
-    productService.updateProduct(id, productModel);
-
-    ProductModel product = productOptional.get();
-    return ResponseEntity.ok(productMapper.toProductDTO(product));
+  public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
+    return ResponseEntity.ok(productService.updateProduct(id, productDTO));
   }
 
   @PutMapping(path = "/exit/{id}")
   public ResponseEntity<?> exitProduct(@PathVariable Long id,
-                                       @RequestBody ProductModel productModel, ProductFactory productFactory) {
-    Optional<ProductModel> productOptional = productService.findOneById(id);
-    if (productOptional.isEmpty()) {
-      return status(HttpStatus.NOT_FOUND).body("Produto não encontrado!");
-    }
-    ProductModel product = productService.exitProduct(id, productModel, productFactory);
-
-    return ResponseEntity.ok(productMapper.toProductDTO(product));
+                                       @RequestBody ProductModel productModel,  ProductDTO productDTO,
+                                                ProductFactory productFactory) {
+    return ResponseEntity.ok(productService.exitProduct(id, productModel, productFactory));
   }
 
   @DeleteMapping(path = "/{id}")
-  public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
-    Optional<ProductModel> productOptional = productService.findOneById(id);
-    if (productOptional.isEmpty()) {
-      return status(HttpStatus.NOT_FOUND).body("Produto não encontrado!");
-    }
-    productService.deleteProduct(id);
-    return ResponseEntity.ok("Deletado com sucesso!");
+  public void deleteProduct(@PathVariable Long id){
+    productService.delete(id);
   }
+
+
 }
