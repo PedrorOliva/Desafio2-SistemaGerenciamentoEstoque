@@ -43,7 +43,7 @@ public class ProductService {
     return productDTOS;
   }
 
-  public Optional<ProductDTO> findById(Long id) {
+  public Optional<ProductDTO> findProductById(Long id) {
     Optional<ProductModel> productModel = productRepository.findById(id);
     if (productModel.isEmpty()) {
       throw new handleIdNotFound("ID not found!");
